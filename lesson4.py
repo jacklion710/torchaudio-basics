@@ -105,7 +105,7 @@ def validate(model, validate_loader, device):
     with torch.no_grad():
         for inputs, labels in validate_loader:
             inputs, labels = inputs.to(device), labels.to(device)
-            outputs = model(inputs.unsqueeze(1))  # Add channel dimension
+            outputs = model(inputs) 
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
