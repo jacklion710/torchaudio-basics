@@ -3,7 +3,6 @@ import torch
 import torchaudio
 import torchaudio.transforms as T
 import matplotlib.pyplot as plt
-import numpy as np
 import random
 
 def add_noise(waveform, noise_level=0.005):
