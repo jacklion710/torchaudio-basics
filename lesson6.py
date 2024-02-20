@@ -112,5 +112,9 @@ for epoch in range(num_epochs):
 
 
 model_save_path = "models/pretrained_audio_classification_model.pth"
-torch.save(model.state_dict(), model_save_path)
+model_info = {
+    "model_state": model.state_dict(),
+    "feature_size": feature_size
+}
+torch.save(model_info, model_save_path)
 print(f"Model saved to {model_save_path}")
