@@ -125,7 +125,8 @@ transform = T.MelSpectrogram(sample_rate=16000, n_mels=64, n_fft=1024, hop_lengt
 annotations = pd.read_csv(csv_file)
 
 # Cross-validation setup
-num_epochs = 1
+num_epochs = 100
+learning_rate = 0.001
 num_folds = 10
 results = []
 
@@ -146,7 +147,7 @@ for fold in range(1, num_folds + 1):
     
     # Model setup
     model = AudioCNN().to(device)
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
     loss_function = nn.CrossEntropyLoss()
 
     inputs, labels = next(iter(train_loader))
