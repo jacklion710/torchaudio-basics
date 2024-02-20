@@ -7,4 +7,8 @@
 # Ignore pycache
 __pycache__
 
+# Ignore large dataset
 data/audio
+
+# Ignore csv files
+*.csv
