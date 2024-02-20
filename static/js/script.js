@@ -53,13 +53,21 @@ document.addEventListener("DOMContentLoaded", function() {
             method: 'POST',
             body: formData,
         })
-        .then(response => response.json())  // Assuming the server responds with JSON
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
-            // Display the prediction result
-            document.getElementById('prediction-result').style.display = 'block';
-            document.getElementById('prediction-text').innerText = 'Prediction: ' + data.prediction;
+            if (data.error) {
+                console.error('Error:', data.error);
+            } else {
+                // Display the prediction result
+                document.getElementById('prediction-result').style.display = 'block';
+                document.getElementById('prediction-text').innerText = 'Prediction: ' + data.prediction;
+            }
         })
         .catch(error => console.error('Error:', error));
     }
-    
 });
