@@ -5,6 +5,19 @@ from model_defs import Wav2Vec2ForAudioClassification
 
 app = Flask(__name__)
 
+CLASS_NAMES = [
+    "air_conditioner",
+    "car_horn",
+    "children_playing",
+    "dog_bark",
+    "drilling",
+    "engine_idling",
+    "gun_shot",
+    "jackhammer",
+    "siren",
+    "street_music"
+]
+
 TARGET_SAMPLE_RATE = 16000
 NUM_CLASSES = 10  # Adjust based on your model
 FEATURE_SIZE = 768  # Adjust based on your model's feature size
@@ -30,11 +43,11 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     if 'file' not in request.files:
-        return render_template('index.html', prediction="No file part")
+        return jsonify({'error': 'No file part'}), 400
     
     file = request.files['file']
     if file.filename == '':
-        return render_template('index.html', prediction="No selected file")
+        return jsonify({'error': 'No selected file'}), 400
 
     waveform, sample_rate = torchaudio.load(file)
     if sample_rate != TARGET_SAMPLE_RATE:
@@ -48,8 +61,9 @@ def predict():
         waveform = waveform.unsqueeze(0)  # Add a batch dimension
         prediction = model(waveform)
         _, predicted_label = torch.max(prediction, dim=1)
+        predicted_class = CLASS_NAMES[predicted_label.item()]
     
-        return jsonify({'prediction': str(predicted_label)})
+    return jsonify({'prediction': predicted_class})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
