@@ -12,3 +12,6 @@ data/audio
 
 # Ignore csv files
 *.csv
+
+# Ignore pth models
+*.pth
