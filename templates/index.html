@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audio Classification</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 <body>
     <h1>Upload an Audio File</h1>
@@ -13,11 +13,10 @@
     <form id="file-form" action="/predict" method="post" enctype="multipart/form-data">
         <input type="file" id="fileElem" name="file" accept="audio/*" style="display:none" onchange="this.form.submit()">
         <label for="fileElem">Select an audio file</label>
-        <input type="submit" value="Upload and Predict">
     </form>
     {% if prediction %}
         <h2>Prediction: {{ prediction }}</h2>
     {% endif %}
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script src="/static/js/script.js"></script>
 </body>
 </html>
