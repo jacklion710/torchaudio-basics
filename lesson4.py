@@ -168,3 +168,8 @@ for fold in range(1, num_folds + 1):
 # Calculate average accuracy across all folds
 average_accuracy = np.mean(results)
 print(f'Average Accuracy across all folds: {average_accuracy:.2f}%')
+
+# Optional saving
+# model_save_path = "models/audio_classification_model.pth"
+# torch.save(model.state_dict(), model_save_path)
+# print(f"Model saved to {model_save_path}")
