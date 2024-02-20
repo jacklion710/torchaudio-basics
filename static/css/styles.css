@@ -51,3 +51,8 @@ label {
 label:hover {
     color: #0056b3;
 }
+
+#prediction-result {
+    margin-top: 20px;
+    color: #007bff;
+}
