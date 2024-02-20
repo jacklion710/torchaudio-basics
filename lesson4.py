@@ -111,6 +111,7 @@ def validate(model, validate_loader, device):
             correct += (predicted == labels).sum().item()
     return 100 * correct / total
 
+# Ensures all audio waveforms in a batch have the same length by padding shorter ones
 def pad_collate(batch):
     # Find the maximum length of a waveform in the batch
     max_len = max([x[0].size(-1) for x in batch])
