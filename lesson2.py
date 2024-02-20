@@ -8,7 +8,7 @@ sns.set(style="whitegrid")
 # Display available audio backend
 # print(torchaudio.list_audio_backends())
 
-# Assuming you've loaded an audio file as shown previously
+# Assuming you've loaded an audio file
 filename = 'audio/obsc.wav'  # Audio file path
 waveform, sample_rate = torchaudio.load(filename)
 
