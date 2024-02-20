@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, render_template
 import torch
 import torchaudio
 from lesson6 import Wav2Vec2ForAudioClassification 
