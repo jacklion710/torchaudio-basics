@@ -3,12 +3,12 @@ import torchaudio
 from torch.utils.data import DataLoader, Dataset
 import pandas as pd
 import os
+from tqdm import tqdm
 
-# Assuming you have a CSV with columns 'filename' and 'label'
 class AudioClassificationDataset(Dataset):
     def __init__(self, annotations_file, audio_dir, transformation=None):
         self.annotations = pd.read_csv(annotations_file)
-        self.audio_dir = audio_dir  # This should be the base directory containing all the fold directories
+        self.audio_dir = audio_dir
         self.transformation = transformation
 
     def __len__(self):
@@ -16,78 +16,87 @@ class AudioClassificationDataset(Dataset):
 
     def __getitem__(self, index):
         audio_filename = self.annotations.iloc[index]['slice_file_name']
-        fold = self.annotations.iloc[index]['fold']  # Get the fold number
+        fold = self.annotations.iloc[index]['fold']
         label = self.annotations.iloc[index]['classID']
-        
-        # Construct the path with the fold information
         audio_path = os.path.join(self.audio_dir, f'fold{fold}', audio_filename)
-        
         waveform, sample_rate = torchaudio.load(audio_path)
+        
+        # Convert to mono by averaging channels if not already mono
+        if waveform.size(0) > 1:
+            waveform = torch.mean(waveform, dim=0, keepdim=True)
         
         if self.transformation:
             waveform = self.transformation(waveform)
+
+        # Ensure waveform is squeezed if it's mono to remove channel dimension
+        waveform = torch.squeeze(waveform)
         
         return waveform, label
     
 def pad_collate(batch):
-    max_length = max([waveform.size(1) for waveform, _ in batch])
-    batch_padded = []
-    for waveform, label in batch:
-        if waveform.size(0) > 1:
-            waveform = torch.mean(waveform, dim=0, keepdim=True)
-        pad_amount = max_length - waveform.size(1)
-        padded_waveform = torch.nn.functional.pad(waveform, (0, pad_amount), 'constant', 0)
-        batch_padded.append((padded_waveform, label))
+    # print("Batch size:", len(batch))
     
-    waveforms_padded = torch.stack([x[0] for x in batch_padded])
-    waveforms_padded = torch.squeeze(waveforms_padded, 1)  # Remove the channel dimension
+    # Adjusting for 1D waveforms
+    max_length = max([waveform.shape[0] for waveform, _ in batch])
+    # print(f"Max length in batch: {max_length}")
+    
+    batch_padded = []
+    for i, (waveform, label) in enumerate(batch):
+        # print(f"Waveform {i} initial shape: {waveform.shape}")
+        pad_amount = max_length - waveform.shape[0]
+        padded_waveform = torch.nn.functional.pad(waveform.unsqueeze(0), (0, pad_amount), 'constant', 0)  # Add a channel dimension before padding
+        batch_padded.append((padded_waveform, label))
+        # print(f"Waveform {i} padded shape: {padded_waveform.shape}")
+    
+    # Removing unnecessary print statement for clarity
+    waveforms_padded = torch.stack([x[0] for x in batch_padded]).squeeze(1)  # Remove the temporary channel dimension after stacking
     labels = torch.tensor([x[1] for x in batch_padded])
     return waveforms_padded, labels
 
 # Load a pre-trained Wav2Vec2 model
 wav2vec2_bundle = torchaudio.pipelines.WAV2VEC2_ASR_BASE_960H
-model = wav2vec2_bundle.get_model()
+temp_model = wav2vec2_bundle.get_model()
 
-# Define the new model for audio classification that includes Wav2Vec2 and a classifier on top
+# Determine the correct feature size using a temporary DataLoader
+train_dataset_temp = AudioClassificationDataset('data/UrbanSound8K.csv', 'data/audio', transformation=None)
+temp_loader = DataLoader(dataset=train_dataset_temp, batch_size=1, shuffle=False)
+temp_inputs, _ = next(iter(temp_loader))
+temp_features, _ = temp_model(temp_inputs)
+feature_size = temp_features.shape[-1]
+
+# Define the model class with the determined feature size
 class Wav2Vec2ForAudioClassification(torch.nn.Module):
-    def __init__(self, pretrained_wav2vec2, num_classes):
+    def __init__(self, pretrained_wav2vec2, num_classes, feature_size):
         super(Wav2Vec2ForAudioClassification, self).__init__()
         self.wav2vec2 = pretrained_wav2vec2
-        # Assuming the feature size based on the base model. Adjust if using a different model
-        self.classifier = torch.nn.Linear(768, num_classes)  # 768 for base models
+        self.classifier = torch.nn.Linear(feature_size, num_classes)
 
     def forward(self, audio_input):
-        # Note: Adjust .forward() usage based on how your Wav2Vec2 model outputs features
-        features = self.wav2vec2(audio_input).get('last_hidden_state')
+        features, _ = self.wav2vec2(audio_input)
         features = torch.mean(features, dim=1)
         output = self.classifier(features)
         return output
 
-# Specify the number of classes you are classifying into
 num_classes = 10
-model = Wav2Vec2ForAudioClassification(model, num_classes)
+model = Wav2Vec2ForAudioClassification(wav2vec2_bundle.get_model(), num_classes, feature_size)
 
-# Transformation: Ensure the audio is resampled to 16kHz, which Wav2Vec2 expects
+# Continue with your script setup for DataLoader, device, training loop, etc.
 transform = torchaudio.transforms.Resample(orig_freq=44100, new_freq=16000)
-
-# Create the dataset and dataloader
 train_dataset = AudioClassificationDataset('data/UrbanSound8K.csv', 'data/audio', transformation=transform)
 train_loader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, collate_fn=pad_collate)
 
-# Move model to GPU if available
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = model.to(device)
 model.train()
 
-# Define loss function and optimizer
 criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-# Training loop
 num_epochs = 3
 for epoch in range(num_epochs):
     total_loss = 0
-    for inputs, labels in train_loader:
+    # Wrap train_loader with tqdm for a progress bar
+    for inputs, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{num_epochs}"):
         inputs, labels = inputs.to(device), labels.to(device)
 
         optimizer.zero_grad()
@@ -97,5 +106,5 @@ for epoch in range(num_epochs):
         optimizer.step()
 
         total_loss += loss.item()
-
+    
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {total_loss/len(train_loader)}")
