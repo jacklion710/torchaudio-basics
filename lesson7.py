@@ -2,6 +2,10 @@ from flask import Flask, request, jsonify, render_template
 import torch
 import torchaudio
 from model_defs import Wav2Vec2ForAudioClassification
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
@@ -56,6 +60,9 @@ def predict():
     if waveform.size(0) > 1:
         waveform = torch.mean(waveform, dim=0, keepdim=True)
     waveform = waveform.squeeze(0)
+
+    # Use logging statements to debug
+    logging.info(f"Sample rate: {sample_rate}, Waveform shape: {waveform.shape}")
 
     with torch.no_grad():
         waveform = waveform.unsqueeze(0)  # Add a batch dimension
