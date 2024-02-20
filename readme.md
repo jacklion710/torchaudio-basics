@@ -4,7 +4,7 @@ This project focuses on exploring audio processing and classification using PyTo
 
 ## Dataset
 
-The dataset used in this project is UrbanSound8K, which can be found [here](https://urbansounddataset.weebly.com/urbansound8k.html). It contains 8732 labeled sound excerpts of urban sounds from 10 classes, pre-sorted into ten folds for easier cross-validation and experimentation.
+The dataset used in this project is UrbanSound8K, which can be found [here](https://urbansounddataset.weebly.com/urbansound8k.html). It contains 8732 labeled sound excerpts of urban sounds from 10 classes, pre-sorted into ten folds for easier cross-validation and experimentation. No data including the audio data, plots or models are included in this repo.
 
 ### Lesson 1: Introduction to PyTorch
 - **Objective**: Understand PyTorch's fundamentals, including tensors, operations, and computational graphs.
