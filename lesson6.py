@@ -93,7 +93,7 @@ model.train()
 criterion = torch.nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
-num_epochs = 3
+num_epochs = 50
 for epoch in range(num_epochs):
     total_loss = 0
     # Wrap train_loader with tqdm for a progress bar
