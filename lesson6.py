@@ -109,3 +109,8 @@ for epoch in range(num_epochs):
         total_loss += loss.item()
     
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {total_loss/len(train_loader)}")
+
+
+model_save_path = "models/pretrained_audio_classification_model.pth"
+torch.save(model.state_dict(), model_save_path)
+print(f"Model saved to {model_save_path}")
