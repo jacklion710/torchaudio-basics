@@ -109,6 +109,60 @@ torch.cuda.device(id)           # The memory address of the specified GPU, where
 torch.cuda.device_count()       # The amount of GPUs that are accessible.
 ```
 
-# SPECIFY FILE STRUCTURE HERE
+# Project Structure
+
+torchaudio-study/
+├── __pycache__
+├── audio/
+├── data/
+│   ├── audio/
+│   │   ├── fold1/
+│   │   ├── fold10/
+│   │   ├── fold2/
+│   │   ├── fold3/
+│   │   ├── fold4/
+│   │   ├── fold5/
+│   │   ├── fold6/
+│   │   ├── fold7/
+│   │   ├── fold8/
+│   │   └── fold9/
+│   └── UrbanSound8K.csv
+├── lessons/
+│   ├── concolusion/
+│   ├── l1/
+│   │   ├── lesson1.py
+│   │   └── readme.md
+│   ├── l2/
+│   │   ├── lesson2.py
+│   │   └── readme.md
+│   ├── l3/
+│   │   ├── lesson3.py
+│   │   └── readme.md
+│   ├── l4/
+│   │   ├── lesson4.py
+│   │   └── readme.md
+│   ├── l5/
+│   │   ├── lesson5.py
+│   │   └── readme.md
+│   ├── l6/
+│   │   ├── lesson6.py
+│   │   └── readme.md
+│   ├── l7/
+│   │   ├── lesson7.py
+│   │   └── readme.md
+│   └── readme.md
+├── models/
+├── plots/
+├── readme.md
+├── static/
+│   ├── css/
+│   │   └── styles.css
+│   └── js/
+│       └── script.js
+├── templates/
+│   └── index.html
+└── utils/
+    ├── model_defs.py
+    └── test_model.py
 
 Once you have your environment configured, you are good to go!
