@@ -94,6 +94,14 @@ torch.cuda.device(id)           # The memory address of the specified GPU, where
 torch.cuda.device_count()       # The amount of GPUs that are accessible.
 ```
 
+## Additional Dependencies
+
+Some lessons might require additional Python packages. Install them using conda:
+
+```bash
+conda install matplotlib seaborn pandas flask tqdm
+```
+
 ## Running the lessons:
 
 Each lesson is encapsulated in its own Python script (e.g., lesson1.py, lesson2.py, etc.). To run a lesson, activate the conda environment and execute the script:
