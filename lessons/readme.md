@@ -111,6 +111,7 @@ torch.cuda.device_count()       # The amount of GPUs that are accessible.
 
 # Project Structure
 
+```
 torchaudio-study/
 ├── __pycache__
 ├── audio/
@@ -164,5 +165,6 @@ torchaudio-study/
 └── utils/
     ├── model_defs.py
     └── test_model.py
+```
 
 Once you have your environment configured, you are good to go!
