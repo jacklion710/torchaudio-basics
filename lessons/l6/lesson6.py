@@ -59,7 +59,7 @@ wav2vec2_bundle = torchaudio.pipelines.WAV2VEC2_ASR_BASE_960H
 temp_model = wav2vec2_bundle.get_model()
 
 # Determine the correct feature size using a temporary DataLoader
-train_dataset_temp = AudioClassificationDataset('data/UrbanSound8K.csv', 'data/audio', transformation=None)
+train_dataset_temp = AudioClassificationDataset('../../data/UrbanSound8K.csv', '../../data/audio', transformation=None)
 temp_loader = DataLoader(dataset=train_dataset_temp, batch_size=1, shuffle=False)
 temp_inputs, _ = next(iter(temp_loader))
 temp_features, _ = temp_model(temp_inputs)
@@ -83,7 +83,7 @@ model = Wav2Vec2ForAudioClassification(wav2vec2_bundle.get_model(), num_classes,
 
 # Continue with your script setup for DataLoader, device, training loop, etc.
 transform = torchaudio.transforms.Resample(orig_freq=44100, new_freq=16000)
-train_dataset = AudioClassificationDataset('data/UrbanSound8K.csv', 'data/audio', transformation=transform)
+train_dataset = AudioClassificationDataset('../../data/UrbanSound8K.csv', '../../data/audio', transformation=transform)
 train_loader = DataLoader(dataset=train_dataset, batch_size=8, shuffle=True, collate_fn=pad_collate)
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -111,7 +111,7 @@ for epoch in range(num_epochs):
     print(f"Epoch {epoch+1}/{num_epochs}, Loss: {total_loss/len(train_loader)}")
 
 
-model_save_path = "models/pretrained_audio_classification_model.pth"
+model_save_path = "../../models/pretrained_audio_classification_model.pth"
 model_info = {
     "model_state": model.state_dict(),
     "feature_size": feature_size
