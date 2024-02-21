@@ -129,7 +129,8 @@ torchaudio-study/
 │   │   └── fold9/
 │   └── UrbanSound8K.csv
 ├── lessons/
-│   ├── concolusion/
+│   ├── conclusion/
+|   │   └── readme.md
 │   ├── l1/
 │   │   ├── lesson1.py
 │   │   └── readme.md
