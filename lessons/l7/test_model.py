@@ -1,6 +1,6 @@
 import torch
 import torchaudio
-from utils.model_defs import Wav2Vec2ForAudioClassification
+from lessons.l7.model_defs import Wav2Vec2ForAudioClassification
 
 CLASS_NAMES = [
     "air_conditioner",
@@ -18,7 +18,7 @@ CLASS_NAMES = [
 TARGET_SAMPLE_RATE= 16000
 
 # Load the model (ensure this matches how you've trained and saved it)
-model_path = "models/pretrained_audio_classification_model.pth"
+model_path = "../../models/pretrained_audio_classification_model.pth"
 model_info = torch.load(model_path, map_location=torch.device('cpu'))
 model_state_dict = model_info["model_state"]
 feature_size = model_info["feature_size"]
@@ -29,7 +29,7 @@ model.load_state_dict(model_state_dict)
 model.eval()
 
 # Load an audio file
-audio_path = 'data/audio/fold1/7383-3-0-0.wav'
+audio_path = '../../data/audio/fold1/7383-3-0-0.wav'
 waveform, sample_rate = torchaudio.load(audio_path)
 
 # Convert stereo to mono if necessary
