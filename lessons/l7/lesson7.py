@@ -2,7 +2,7 @@
 from flask import Flask, request, jsonify, render_template
 import torch
 import torchaudio
-from utils.model_defs import Wav2Vec2ForAudioClassification
+from model_defs import Wav2Vec2ForAudioClassification
 import logging
 
 # Configure logging
