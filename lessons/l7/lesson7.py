@@ -2,7 +2,7 @@
 from flask import Flask, request, jsonify, render_template
 import torch
 import torchaudio
-from model_defs import Wav2Vec2ForAudioClassification
+from utils.model_defs import Wav2Vec2ForAudioClassification
 import logging
 
 # Configure logging
@@ -28,7 +28,7 @@ NUM_CLASSES = 10  # Adjust based on your model
 FEATURE_SIZE = 768  # Adjust based on your model's feature size
 
 # Load the trained model and feature_size
-model_path = "models/pretrained_audio_classification_model.pth"
+model_path = "../../models/pretrained_audio_classification_model.pth"
 model_info = torch.load(model_path, map_location=torch.device('cpu'))
 model_state_dict = model_info["model_state"]
 feature_size = model_info["feature_size"]  # Dynamically loaded feature size

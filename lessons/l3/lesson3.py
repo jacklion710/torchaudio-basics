@@ -2,7 +2,7 @@
 import torchaudio
 import matplotlib.pyplot as plt
 
-filename = 'audio/obsc.wav'  # Audio file path
+filename = '../../audio/obsc.wav'  # Audio file path
 waveform, sample_rate = torchaudio.load(filename)
 
 # Compute the spectrogram

@@ -38,7 +38,7 @@ def extract_features(waveform, sample_rate):
     return features
 
 if __name__ == "__main__":
-    filename = 'audio/obsc.wav'
+    filename = '../../audio/obsc.wav'
     waveform, sample_rate = torchaudio.load(filename)
     
     # Apply augmentations

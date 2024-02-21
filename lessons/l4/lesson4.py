@@ -120,8 +120,8 @@ def pad_collate(batch):
     return waveforms_padded, labels
 
 # Prepare dataset
-csv_file = 'data/UrbanSound8K.csv'
-root_dir = 'data/audio/'
+csv_file = '../../data/UrbanSound8K.csv'
+root_dir = '../../data/audio/'
 transform = T.MelSpectrogram(sample_rate=16000, n_mels=64, n_fft=1024, hop_length=512)
 annotations = pd.read_csv(csv_file)
 
@@ -170,6 +170,6 @@ average_accuracy = np.mean(results)
 print(f'Average Accuracy across all folds: {average_accuracy:.2f}%')
 
 # Optional saving
-# model_save_path = "models/audio_classification_model.pth"
+# model_save_path = "../../models/audio_classification_model.pth"
 # torch.save(model.state_dict(), model_save_path)
 # print(f"Model saved to {model_save_path}")
