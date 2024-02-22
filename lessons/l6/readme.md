@@ -185,8 +185,6 @@ After training, we save the model's state along with the feature size to a file.
 torch.save(model_info, model_save_path)
 ```
 
-## Conclusion
-
 Transfer learning with Wav2Vec 2.0 offers a powerful approach for audio classification tasks. By leveraging pre-trained models, we can achieve high performance with relatively small datasets and less computational effort.
 
 In the next lesson, we will explore deploying our trained audio models, making them accessible for real-world applications.

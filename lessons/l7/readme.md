@@ -319,8 +319,4 @@ python lesson7.py
 
 Once its running go to `http://127.0.0.1:5000` on a browser
 
-This Flask setup creates a web interface for uploading audio files and receiving predictions. It's an accessible way for users to interact with our audio classification model.
-
-## Conclusion
-
 This setup allows users to upload audio files through a web interface, and the backend processes these files to return the predicted audio class. Deploying the model in this way makes it accessible for real-world applications and testing.

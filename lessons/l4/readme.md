@@ -229,8 +229,6 @@ print(f'Average Accuracy across all folds: {average_accuracy:.2f}%')
 * We iterate through each fold, training the model on the training set and evaluating it on the validation set.
 * After each fold, we record the model's performance.
 
-## Conclusion
-
 Building a simple CNN model for audio classification with PyTorch demonstrates the power of neural networks in processing and understanding complex data like audio signals. This foundational knowledge sets the stage for exploring more advanced models and techniques in the field of audio analysis.
 
 In the next lesson, we will delve into advanced audio data augmentation techniques to further improve our model's performance.

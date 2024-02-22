@@ -72,8 +72,6 @@ plt.colorbar(format='%+2.0f dB')
 plt.show()
 ```
 
-## Conclusion
-
 Feature extraction is a pivotal process in audio analysis, providing a bridge between raw audio data and machine learning models. By understanding and utilizing Spectrograms, MFCCs, and Mel-Spectrograms, we can effectively capture the essence of audio signals for further analysis or model training.
 
 In the next lesson, we will take these concepts further and start building an audio classification model using these features.

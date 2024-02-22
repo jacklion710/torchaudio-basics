@@ -44,8 +44,6 @@ In this snippet:
 - We use `matplotlib` to plot the waveform and `seaborn` to enhance the visual style.
 - The X-axis represents time, and the Y-axis represents amplitude.
 
-## Conclusion
-
 In this lesson, you've learned how to load and visualize audio data using `torchaudio` and `matplotlib`. These skills form the foundation for more advanced audio processing tasks, such as feature extraction and audio classification, which we'll explore in upcoming lessons.
 
 In Lesson 3, where we will dive into audio feature extraction techniques that are crucial for building machine learning models.

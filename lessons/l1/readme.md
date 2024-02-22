@@ -198,7 +198,6 @@ mono_audio = torch.mean(stereo_audio, dim=0)  # Take the mean across the first d
 print("Mono audio shape:", mono_audio.shape)  # The shape will be [1000], representing mono audio
 ```
 
-## Conclusion
 Congratulations on completing your first lesson on PyTorch! You've learned how to create tensors and perform basic arithmetic operations. Mastering advanced tensor operations and troubleshooting common issues are essential skills in PyTorch, especially for tasks like audio processing. This knowledge will help you manipulate data more effectively and build more sophisticated models.
 
 In the next lesson we will explore how to work with audio data in PyTorch, including loading, visualizing, and transforming sound files.

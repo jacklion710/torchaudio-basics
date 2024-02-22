@@ -96,8 +96,6 @@ plt.imshow(features.log2()[0,:,:].numpy(), cmap='viridis', aspect='auto')
 plt.show()
 ```
 
-## Conclusion
-
 In this lesson, we explored advanced techniques for processing audio data, including data augmentation and feature extraction. These strategies are crucial for developing high-performing audio classification models, especially in scenarios with limited training data.
 
 In the next lesson, we will learn how to leverage transfer learning for audio tasks, using pre-trained models to achieve even better performance with less data.
