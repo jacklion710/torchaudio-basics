@@ -5,7 +5,7 @@ import torchaudio.transforms as T
 import matplotlib.pyplot as plt
 import random
 
-def add_noise(waveform, noise_level=0.005):
+def add_noise(waveform, noise_level=0.25):
     noise = torch.randn(waveform.size()) * noise_level
     augmented_waveform = waveform + noise
     return augmented_waveform
@@ -50,16 +50,27 @@ if __name__ == "__main__":
     features = extract_features(waveform, sample_rate)
     
     # Plotting
-    plt.figure(figsize=(12, 8))
-    plt.subplot(3, 1, 1)
+    plt.figure(figsize=(12, 15))
+    plt.subplot(5, 1, 1)
     plt.title("Original Waveform")
     plt.plot(waveform.t().numpy())
-    
-    plt.subplot(3, 1, 2)
+
+    plt.subplot(5, 1, 2)
     plt.title("Waveform with Noise")
     plt.plot(waveform_noise.t().numpy())
-    
-    plt.subplot(3, 1, 3)
+
+    plt.subplot(5, 1, 3)
+    plt.title("Waveform with Pitch Shift")
+    plt.plot(waveform_pitch.t().numpy())
+
+    plt.subplot(5, 1, 4)
+    plt.title("Waveform with Time Shift")
+    plt.plot(waveform_shifted.t().numpy())
+
+    plt.subplot(5, 1, 5)
     plt.title("Features")
     plt.imshow(features.log2()[0,:,:].numpy(), cmap='viridis', aspect='auto')
+
+    plt.tight_layout()
+    plt.savefig("features.png", dpi=300, bbox_inches='tight')
     plt.show()
