@@ -1,24 +1,33 @@
-# lesson2.py
-import torchaudio
+import torch
 import matplotlib.pyplot as plt
-import seaborn as sns
+import torchaudio
 
-# Set seaborn style for plots
-sns.set(style="whitegrid")
+# Load the audio file
+file_path = '../../Kick.wav'  # Update path if needed
+waveform, sample_rate = torchaudio.load(file_path)
 
-# Display available audio backend
-# print(torchaudio.list_audio_backends())
+print(f"Sample rate: {sample_rate} Hz")
+print(f"Audio shape: {waveform.shape}")
 
-# Assuming you've loaded an audio file
-filename = '../../audio/obsc.wav'  # Audio file path
-waveform, sample_rate = torchaudio.load(filename)
+# Convert to mono if stereo by averaging channels
+if waveform.shape[0] > 1:
+    waveform = torch.mean(waveform, dim=0, keepdim=True)
 
-# Plotting with Matplotlib functions using Seaborn's styling
+# Normalize audio to range [-1, 1]
+max_val = torch.max(torch.abs(waveform))
+if max_val > 0:
+    waveform = waveform / max_val
+print(f"Max amplitude after normalization: {torch.max(torch.abs(waveform)).item()}")
+
+# Create time axis in seconds
+time = torch.arange(0, waveform.shape[1]) / sample_rate
+
+# Plot the waveform
 plt.figure(figsize=(10, 4))
-plt.plot(waveform.t().numpy())
-plt.title('Audio Waveform')
-plt.xlabel('Time')
+plt.plot(time, waveform[0].numpy())  # Convert to numpy for plotting
+plt.title('Normalized Kick Drum Waveform')
+plt.xlabel('Time (seconds)')
 plt.ylabel('Amplitude')
-# Save the plot using Matplotlib's savefig, as seaborn enhances the style but does not replace this functionality
-plt.savefig('../../plots/audio_waveform_seaborn.png')
+plt.grid(True, alpha=0.3)
+plt.tight_layout()
 plt.show()
